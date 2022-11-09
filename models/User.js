@@ -41,13 +41,13 @@ const UserSchema = new mongoose.Schema({
         },
         desc: {
             type: String,
-            max: 50,
+            max: 81,
         },
-        city: {
+        location: {
             type: String,
             max: 50,
         },
-        country: {
+        dimension: {
             type: String,
             max: 50,
         },

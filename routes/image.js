@@ -31,7 +31,7 @@ const imageRoute = (upload) => {
     })
 
 
-    // GET image from Image collection by id
+    // GET image from Image collection by fileId
     route.get("/:imgId", async (req, res) => {
         const {imgId} = req.params
         try {

@@ -12,12 +12,7 @@ const ImageSchema = new mongoose.Schema({
     originalName: {
         required: true,
         type: String
-    },
-    userId: {
-        // required: true,
-        type: String,
-        default: ""
-    },
+    }
 }, {
     timestamps: true
 })
