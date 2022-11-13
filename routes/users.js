@@ -69,6 +69,22 @@ router.get("/", async (req, res) => {
 })
 
 
+
+// ==== get users By userName // Or event matching startsWith()
+router.get("/filter/:filter", async (req, res) => {
+    const {filter} = req.params
+    const regex = new RegExp("^"+filter)
+
+    try {
+        const response = await User.find({username: regex})
+        res.status(200).json(response)
+    } catch (err) {
+        res.status(500).json(err)
+    }
+})
+
+
+
 // ==== follow a user =====
 router.put("/:id/follow", async (req, res) => {
     const {id} = req.params
@@ -77,12 +93,15 @@ router.put("/:id/follow", async (req, res) => {
 
         try {
             const userToFollow = await User.findById(id)
-            const currentUser = await User.findById(req.body.userId)
+            // const currentUser = await User.findById(req.body.userId)
 
             if (!userToFollow.followers.includes(req.body.userId)) {
-                await currentUser.update({$push: {followings: id}})
+                const updatedUser = await User.findByIdAndUpdate(req.body.userId, {$push: {followings: id}}, {new: true})
                 await userToFollow.update({$push: {followers: req.body.userId}})
-                res.status(200).json("User followed")
+                res.status(200).json({
+                    message: "user followed",
+                    updatedUser
+                })
             } else {
                 res.json("user already followed")
             }
@@ -106,12 +125,15 @@ router.put("/:id/unfollow", async (req, res) => {
 
         try {
             const userToFollow = await User.findById(id)
-            const currentUser = await User.findById(req.body.userId)
+            // const currentUser = await User.findById(req.body.userId)
 
             if (userToFollow.followers.includes(req.body.userId)) {
-                await currentUser.update({$pull: {followings: id}})
+                const updatedUser = await User.findByIdAndUpdate(req.body.userId, {$pull: {followings: id}}, {new: true})
                 await userToFollow.update({$pull: {followers: req.body.userId}})
-                res.status(200).json("User unfollowed")
+                res.status(200).json({
+                    message: "user unfollowed",
+                    updatedUser
+                })
             } else {
                 res.json("You can't unfollow who you don't follow")
             }
