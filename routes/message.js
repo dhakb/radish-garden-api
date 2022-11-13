@@ -15,7 +15,7 @@ route.post("/", async (req, res) => {
 })
 
 
-// Get Message
+// Get Messages
 route.get("/:conversationId", async (req, res) => {
     const {conversationId} = req.params
 
