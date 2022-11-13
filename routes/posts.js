@@ -46,7 +46,6 @@ router.delete("/:id", async (req, res) => {
 
     try {
         const postToDelete = await Post.findById(postId)
-
         if (postToDelete.userId === userId) {
             await postToDelete.deleteOne()
             res.status(200).json("Post has been deleted")
@@ -69,7 +68,7 @@ router.put("/:id/like", async (req, res) => {
 
     try {
         const postToLike = await Post.findById(postId)
-        if (postToLike.userId !== userId) {
+        // if (postToLike.userId !== userId) {
 
             if (!postToLike.likes.includes(userId)) {
                 await postToLike.updateOne({$push: {likes: userId}})
@@ -79,9 +78,9 @@ router.put("/:id/like", async (req, res) => {
                 res.status(200).json("You disliked postCard!")
             }
 
-        } else {
-            res.status(403).json("You can't like your postCard!")
-        }
+        // } else {
+        //     res.status(403).json("You can't like your postCard!")
+        // }
 
 
     } catch (err) {
@@ -137,8 +136,6 @@ router.get("/profile/:username", async (req, res) => {
         const currentUser = await User.findOne({username})
         const currentUserPosts = await Post.find({userId: currentUser._id})
 
-        console.log("fetched user posts")
-        console.log(currentUserPosts)
         res.status(200).json(currentUserPosts)
     } catch (err) {
         res.status(500).json(err)
