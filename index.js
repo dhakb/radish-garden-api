@@ -70,6 +70,6 @@ app.use("/api/upload", imageRoute(upload))
 
 
 const PORT = process.env.PORT
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`)
+app.listen(PORT || 8080, () => {
+    console.log(`Server running on port ${PORT || 8080}`)
 })

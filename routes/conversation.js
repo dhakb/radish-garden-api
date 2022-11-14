@@ -22,7 +22,7 @@ route.post("/", async (req, res) => {
 // Get Conversation
 route.get("/:userId", async (req, res) => {
     const {userId} = req.params
-    
+
     try {
         const userConversations = await Conversation.find({members: userId})
         res.status(200).json(userConversations)
