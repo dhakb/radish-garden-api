@@ -1,5 +1,5 @@
 const route = require("express").Router()
-const bcrypt = require("bcrypt")
+// const bcrypt = require("bcrypt")
 const User = require("../models/User")
 
 
@@ -9,14 +9,14 @@ route.post("/register", async (req, res) => {
     console.log(username, email, password)
     try {
         // Encrypt* Generate hashed password
-        const salt = await bcrypt.genSalt(10)
-        const hashedPassword = await bcrypt.hash(password, salt)
+        // const salt = await bcrypt.genSalt(10)
+        // const hashedPassword = await bcrypt.hash(password, salt)
 
         // Create new user
         const newUser = await new User({
             username,
             email,
-            password: hashedPassword
+            // password: hashedPassword
         })
 
         // Save new user and respond
