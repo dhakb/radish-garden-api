@@ -7,6 +7,7 @@ const crypto = require("crypto")
 const multer = require("multer")
 const {GridFsStorage} = require("multer-gridfs-storage")
 const dotenv = require("dotenv").config()
+const serverless = require("serverless-http")
 
 const userRoute = require("./routes/users")
 const authRoute = require("./routes/login")
@@ -17,8 +18,9 @@ const imageRoute = require("./routes/image")
 const path = require("path");
 
 const app = express()
+const route = express.Router()
 
-mongoose.connect(process.env.MONGO_URL, {useNewUrlParser: true, useUnifiedTopology: true}, (err) => {
+mongoose.connect(`${process.env.MONGO_URL}`, {useNewUrlParser: true, useUnifiedTopology: true}, (err) => {
     if (err) {
         console.log(err)
     } else {
@@ -30,7 +32,7 @@ mongoose.connect(process.env.MONGO_URL, {useNewUrlParser: true, useUnifiedTopolo
 
 
 const storage = new GridFsStorage({
-    url: process.env.MONGO_URL,
+    url: `${process.env.MONGO_URL}`,
     file: (req, file) => {
         return new Promise((resolve, reject) => {
             crypto.randomBytes(16, (err, buff) =>{
@@ -59,17 +61,26 @@ app.use(express.json())
 app.use(helmet({crossOriginResourcePolicy: false}))
 app.use(morgan("common"))
 
-
-
-app.use("/api/users", userRoute)
-app.use("/api/auth", authRoute)
-app.use("/api/posts", postRoute)
-app.use("/api/conversations", conversationRoute)
-app.use("/api/messages", messageRoute)
-app.use("/api/upload", imageRoute(upload))
-
-
-const PORT = process.env.PORT
-app.listen(PORT || 8080, () => {
-    console.log(`Server running on port ${PORT || 8080}`)
+route.get("/", (req, res) => {
+    res.json({
+        "message": "test"
+    })
 })
+
+
+app.use("/.netlify/functions/index/test", route)
+
+app.use("/.netlify/functions/index/api/users", userRoute)
+// app.use("/api/auth", authRoute)
+app.use("/.netlify/functions/index/api/posts", postRoute)
+app.use("/.netlify/functions/index/api/conversations", conversationRoute)
+// app.use("/api/messages", messageRoute)
+// app.use("/api/upload", imageRoute(upload))
+
+
+// const PORT = process.env.PORT
+// app.listen(PORT || 8080, () => {
+//     console.log(`Server running on port ${PORT || 8080}`)
+// })
+
+module.exports.handler = serverless(app)
