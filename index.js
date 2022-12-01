@@ -13,6 +13,7 @@ const authRoute = require("./routes/login")
 const postRoute = require("./routes/posts")
 const conversationRoute = require("./routes/conversation")
 const messageRoute = require("./routes/message")
+const commentRoute = require("./routes/comment")
 const imageRoute = require("./routes/image")
 const path = require("path");
 
@@ -66,6 +67,7 @@ app.use("/api/auth", authRoute)
 app.use("/api/posts", postRoute)
 app.use("/api/conversations", conversationRoute)
 app.use("/api/messages", messageRoute)
+app.use("/api/comments", commentRoute)
 app.use("/api/upload", imageRoute(upload))
 
 
