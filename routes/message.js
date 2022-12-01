@@ -10,7 +10,7 @@ route.post("/", async (req, res) => {
         const response = await newMessage.save()
         res.status(200).json(response)
     } catch (err) {
-        res.status(500).json(500)
+        res.status(500).json(err)
     }
 })
 

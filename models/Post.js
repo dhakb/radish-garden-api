@@ -16,6 +16,11 @@ const PostSchema = new mongoose.Schema({
             type: Array,
             default: [],
         },
+        // comments: {
+        //     type: Array,
+        //     default: [],
+        //     max: 1000
+        // }
     },
     {
         timestamps: true

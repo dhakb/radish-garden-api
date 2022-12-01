@@ -3,7 +3,7 @@ const Post = require("../models/Post")
 const User = require("../models/User")
 
 
-// ===== Create postCard ======
+// ===== Create post ======
 router.post("/", async (req, res) => {
     const {userId, desc, img} = req.body
 
@@ -17,7 +17,7 @@ router.post("/", async (req, res) => {
 
 })
 
-//  =====  Edit postCard ======
+//  =====  Edit post ======
 router.put("/:id", async (req, res) => {
     const {id: posId} = req.params
     const {userId} = req.body
@@ -29,7 +29,7 @@ router.put("/:id", async (req, res) => {
             await postToUpdate.updateOne({$set: req.body})
             res.status(200).json("Post has been updated!")
         } else {
-            res.status(403).json("You can update only your postCard")
+            res.status(403).json("You can update only your post")
         }
 
     } catch (err) {
@@ -39,7 +39,7 @@ router.put("/:id", async (req, res) => {
 })
 
 
-// ===== Delete postCard =====
+// ===== Delete post =====
 router.delete("/:id", async (req, res) => {
     const {id: postId} = req.params
     const {userId} = req.body
@@ -60,7 +60,7 @@ router.delete("/:id", async (req, res) => {
 })
 
 
-// ====== Like postCard ======
+// ====== Like post ======
 router.put("/:id/like", async (req, res) => {
     const {id: postId} = req.params
     const {userId} = req.body
@@ -72,14 +72,14 @@ router.put("/:id/like", async (req, res) => {
 
             if (!postToLike.likes.includes(userId)) {
                 await postToLike.updateOne({$push: {likes: userId}})
-                res.status(200).json("You liked postCard!")
+                res.status(200).json("You liked post!")
             } else {
                 await postToLike.updateOne({$pull: {likes: userId}})
-                res.status(200).json("You disliked postCard!")
+                res.status(200).json("You disliked post!")
             }
 
         // } else {
-        //     res.status(403).json("You can't like your postCard!")
+        //     res.status(403).json("You can't like your post!")
         // }
 
 
@@ -90,7 +90,7 @@ router.put("/:id/like", async (req, res) => {
 })
 
 
-// =====  Get single postCard  ======
+// =====  Get single post  ======
 router.get("/:id", async (req, res) => {
     const {id: postId} = req.params
 
@@ -118,8 +118,8 @@ router.get("/timeline/:userId", async (req, res) => {
         //
         // let posts = []
         // for (let user of followings) {
-        //     const postCard = await Post.find({user})
-        //     posts.push(postCard)
+        //     const post = await Post.find({user})
+        //     posts.push(post)
         // }
         console.log("fetched timeline")
         res.status(200).json(currentUserPosts.concat(...followingsPosts))
