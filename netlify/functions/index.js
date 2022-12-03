@@ -28,7 +28,6 @@ mongoose.connect(`${process.env.MONGO_URL}`, {useNewUrlParser: true, useUnifiedT
     }
 })
 
-
 const storage = new GridFsStorage({
     url: `${process.env.MONGO_URL}`,
     file: (req, file) => {
