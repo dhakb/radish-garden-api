@@ -6,6 +6,7 @@ const mongoose = require("mongoose")
 const crypto = require("crypto")
 const multer = require("multer")
 const {GridFsStorage} = require("multer-gridfs-storage")
+const serverless = require("serverless-http")
 const dotenv = require("dotenv").config()
 
 const userRoute = require("./routes/users")
@@ -19,7 +20,7 @@ const path = require("path");
 
 const app = express()
 
-mongoose.connect(process.env.MONGO_URL, {useNewUrlParser: true, useUnifiedTopology: true}, (err) => {
+mongoose.connect("mongodb+srv://salyutopia:0H40CFTXvtWpU5Ag@salyut.zzpvqij.mongodb.net/?retryWrites=true&w=majority", {useNewUrlParser: true, useUnifiedTopology: true}, (err) => {
     if (err) {
         console.log(err)
     } else {
@@ -31,7 +32,7 @@ mongoose.connect(process.env.MONGO_URL, {useNewUrlParser: true, useUnifiedTopolo
 
 
 const storage = new GridFsStorage({
-    url: process.env.MONGO_URL,
+    url: "mongodb+srv://salyutopia:0H40CFTXvtWpU5Ag@salyut.zzpvqij.mongodb.net/?retryWrites=true&w=majority",
     file: (req, file) => {
         return new Promise((resolve, reject) => {
             crypto.randomBytes(16, (err, buff) =>{
@@ -62,16 +63,14 @@ app.use(morgan("common"))
 
 
 
-app.use("/api/users", userRoute)
-app.use("/api/auth", authRoute)
-app.use("/api/posts", postRoute)
-app.use("/api/conversations", conversationRoute)
-app.use("/api/messages", messageRoute)
-app.use("/api/comments", commentRoute)
-app.use("/api/upload", imageRoute(upload))
+
+app.use("/.netlify/functions/index/api/users", userRoute)
+app.use("/.netlify/functions/index/api/auth", authRoute)
+app.use("/.netlify/functions/index/api/posts", postRoute)
+app.use("/.netlify/functions/index/api/comments", commentRoute)
+app.use("/.netlify/functions/index/api/conversations", conversationRoute)
+app.use("/.netlify/functions/index/api/messages", messageRoute)
+app.use("/.netlify/functions/index/api/upload", imageRoute(upload))
 
 
-const PORT = process.env.PORT
-app.listen(PORT || 8080, () => {
-    console.log(`Server running on port ${PORT || 8080}`)
-})
+module.exports.handler = serverless(app)
