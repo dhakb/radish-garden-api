@@ -20,7 +20,7 @@ const path = require("path");
 const app = express()
 const route = express.Router()
 
-mongoose.connect(`${process.env.MONGO_URL}`, {useNewUrlParser: true, useUnifiedTopology: true}, (err) => {
+mongoose.connect("mongodb+srv://salyutopia:0H40CFTXvtWpU5Ag@salyut.zzpvqij.mongodb.net/?retryWrites=true&w=majority", {useNewUrlParser: true, useUnifiedTopology: true}, (err) => {
     if (err) {
         console.log(err)
     } else {
@@ -29,7 +29,7 @@ mongoose.connect(`${process.env.MONGO_URL}`, {useNewUrlParser: true, useUnifiedT
 })
 
 const storage = new GridFsStorage({
-    url: `${process.env.MONGO_URL}`,
+    url: "mongodb+srv://salyutopia:0H40CFTXvtWpU5Ag@salyut.zzpvqij.mongodb.net/?retryWrites=true&w=majority",
     file: (req, file) => {
         return new Promise((resolve, reject) => {
             crypto.randomBytes(16, (err, buff) =>{
@@ -72,19 +72,6 @@ app.use("/.netlify/functions/index/api/posts", postRoute)
 app.use("/.netlify/functions/index/api/conversations", conversationRoute)
 app.use("/.netlify/functions/index/api/messages", messageRoute)
 app.use("/.netlify/functions/index/api/upload", imageRoute(upload))
-
-// app.use("/api/users", userRoute)
-// app.use("/api/auth", authRoute)
-// app.use("/api/posts", postRoute)
-// app.use("/api/conversations", conversationRoute)
-// app.use("/api/messages", messageRoute)
-// app.use("/api/upload", imageRoute(upload))
-
-
-// const PORT = process.env.PORT
-// app.listen(PORT || 8080, () => {
-//     console.log(`Server running on port ${PORT || 8080}`)
-// })
 
 
 
