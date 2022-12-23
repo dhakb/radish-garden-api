@@ -4,7 +4,7 @@ const Image = require("../models/Image")
 
 
 const imageRoute = (upload) => {
-    const connect = mongoose.createConnection("mongodb+srv://salyutopia:0H40CFTXvtWpU5Ag@salyut.zzpvqij.mongodb.net/?retryWrites=true&w=majority", {useNewUrlParser: true, useUnifiedTopology: true})
+    const connect = mongoose.createConnection(`${process.env.MONGO_URL}`, {useNewUrlParser: true, useUnifiedTopology: true})
 
     let gfs;
     connect.once("open", () => {
