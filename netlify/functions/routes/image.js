@@ -45,7 +45,7 @@ const imageRoute = (upload) => {
 
     // GET image from uploads collection by filename
     route.get("/image/:filename", (req, res) => {
-        gfs.find({filename: req.params.filename}).toArray((err, files) => {
+        gfs?.find({filename: req.params.filename}).toArray((err, files) => {
             if (!files[0] || files.length === 0) {
                 return res.status(200).json({
                     success: false,
