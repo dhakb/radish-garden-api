@@ -20,7 +20,7 @@ const path = require("path");
 
 const app = express()
 
-mongoose.connect("mongodb+srv://salyutopia:0H40CFTXvtWpU5Ag@salyut.zzpvqij.mongodb.net/?retryWrites=true&w=majority", {useNewUrlParser: true, useUnifiedTopology: true}, (err) => {
+mongoose.connect(`${process.env.MONGO_URL}`, {useNewUrlParser: true, useUnifiedTopology: true}, (err) => {
     if (err) {
         console.log(err)
     } else {
@@ -32,7 +32,7 @@ mongoose.connect("mongodb+srv://salyutopia:0H40CFTXvtWpU5Ag@salyut.zzpvqij.mongo
 
 
 const storage = new GridFsStorage({
-    url: "mongodb+srv://salyutopia:0H40CFTXvtWpU5Ag@salyut.zzpvqij.mongodb.net/?retryWrites=true&w=majority",
+    url: `${process.env.MONGO_URL}`,
     file: (req, file) => {
         return new Promise((resolve, reject) => {
             crypto.randomBytes(16, (err, buff) =>{
@@ -56,7 +56,9 @@ const upload = multer({storage})
 
 
 // Middleware
-app.use(cors())
+app.use(cors({
+    origin: "*"
+}))
 app.use(express.json())
 app.use(helmet({crossOriginResourcePolicy: false}))
 app.use(morgan("common"))
