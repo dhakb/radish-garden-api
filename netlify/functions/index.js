@@ -20,9 +20,9 @@ const path = require("path");
 
 const app = express()
 
-mongoose.connect(`${process.env.MONGO_URL}`, {useNewUrlParser: true, useUnifiedTopology: true}, (err) => {
+mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopology: true}, (err) => {
     if (err) {
-        console.log(err)
+        console.log("this >>>>>>>>", err)
     } else {
         console.log("connected to MongoDB")
     }
@@ -32,7 +32,8 @@ mongoose.connect(`${process.env.MONGO_URL}`, {useNewUrlParser: true, useUnifiedT
 
 
 const storage = new GridFsStorage({
-    url: `${process.env.MONGO_URL}`,
+    url: process.env.MONGO_URI,
+    options: {useNewUrlParser: true, useUnifiedTopology: true},
     file: (req, file) => {
         return new Promise((resolve, reject) => {
             crypto.randomBytes(16, (err, buff) =>{
@@ -61,7 +62,7 @@ app.use(cors({
 }))
 app.use(express.json())
 app.use(helmet({crossOriginResourcePolicy: false}))
-app.use(morgan("common"))
+// app.use(morgan("common"))
 
 
 
@@ -72,7 +73,11 @@ app.use("/.netlify/functions/index/api/posts", postRoute)
 app.use("/.netlify/functions/index/api/comments", commentRoute)
 app.use("/.netlify/functions/index/api/conversations", conversationRoute)
 app.use("/.netlify/functions/index/api/messages", messageRoute)
-app.use("/.netlify/functions/index/api/upload", imageRoute(upload))
+// app.use("/.netlify/functions/index/api/upload", imageRoute(upload))
+app.use("/api/upload", imageRoute(upload))
 
 
-module.exports.handler = serverless(app)
+app.listen(8080, () => {
+    console.log("listening")
+})
+// module.exports.handler = serverless(app)
