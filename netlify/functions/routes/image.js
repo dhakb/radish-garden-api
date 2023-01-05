@@ -3,13 +3,16 @@ const mongoose = require("mongoose")
 const {GridFSBucket, MongoClient} = require("mongodb")
 const fs =  require("fs")
 const {ObjectId} = require("mongodb")
+const mongo = require("mongodb")
+const Grid = require("gridfs-stream")
 require("dotenv").config()
 
 const Image = require("../models/Image")
+const {response} = require("express");
 
 
 // const imageRoute = (upload) => {
-    // const connect = mongoose.createConnection(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopology: true})
+    const connect = mongoose.createConnection(`${process.env.MONGO_URI}`, {useNewUrlParser: true, useUnifiedTopology: true})
 
 
     // let bucket;
@@ -28,10 +31,21 @@ const Image = require("../models/Image")
     // })
 
 
-    const mongoClient = new MongoClient(`mongodb+srv://salyutopia:0H40CFTXvtWpU5Ag@salyut.zzpvqij.mongodb.net/?retryWrites=true&w=majority`)
-    let bucket = new GridFSBucket(mongoClient.db("test"), {bucketName: "uploads"})
+    // const mongoClient = new MongoClient(`mongodb+srv://salyutopia:0H40CFTXvtWpU5Ag@salyut.zzpvqij.mongodb.net/?retryWrites=true&w=majority`)
+    // mongoClient.connect().then(() => {
+    //     console.log("mongo connected")
+    // })
+    // const gfs = Grid(mongoClient.db("test"), mongoose.mongo)
+    // let bucket = new GridFSBucket(mongoClient.db("test"), {bucketName: "uploads"})
 
 
+    // let gfs;
+    connect.once("open", () => {
+        let gfs = Grid(connect.db, mongoose.mongo)
+        console.log("in")
+
+
+    console.log("out")
 
 
     // POST image (add to Image collection)
@@ -64,10 +78,15 @@ const Image = require("../models/Image")
     })
 
     // GET: fetch image and render on browser
-    route.get("/image/:filename", (req, res) => {
+    route.get("/image/:filename", async (req, res) => {
         const _id = ObjectId(req.params.filename)
 
-        const cursor = bucket.find({_id: _id}).toArray((err, files) => {
+        gfs.collection("uploads")
+        const cursor = gfs.files.find({_id: _id}).toArray((err, files) => {
+            console.log(files)
+            console.log(_id)
+            console.log(gfs.curCol)
+            // console.log(gfs)
             if (!files[0] || files.length === 0) {
                 return res.status(200).json({
                     success: false,
@@ -75,11 +94,18 @@ const Image = require("../models/Image")
                 })
             }
 
-            if (files[0].contentType === 'image/jpeg' || files[0].contentType === 'image/png' || files[0].contentType === 'image/jpg') {
-                bucket.openDownloadStream(_id).pipe(res)
-            } else {
-                res.status(404).json({err: "No Image Found!!!"})
-            }
+            res.contentType(files[0].contentType)
+            const readStream = gfs.createReadStream({_id: req.params.filename})
+
+            readStream.pipe(res)
+            // readStream.pipe(readStream)
+            // res.send("heee")
+
+            // if (files[0].contentType === 'image/jpeg' || files[0].contentType === 'image/png' || files[0].contentType === 'image/jpg') {
+            //     bucket.openDownloadStream(_id).pipe(res)
+            // } else {
+            //     res.status(404).json({err: "No Image Found!!!"})
+            // }
         })
         console.log("doc >>>>>", cursor)
     })
@@ -87,6 +113,6 @@ const Image = require("../models/Image")
 
     // return route
 // }
-
+    })
 
 module.exports = route
