@@ -1,4 +1,5 @@
 const express = require("express")
+const path = require("path");
 const cors = require("cors")
 const morgan = require("morgan")
 const helmet = require("helmet")
@@ -16,11 +17,11 @@ const conversationRoute = require("./routes/conversation")
 const messageRoute = require("./routes/message")
 const commentRoute = require("./routes/comment")
 const imageRoute = require("./routes/image")
-const path = require("path");
+
 
 const app = express()
 
-mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopology: true}, (err) => {
+mongoose.connect(`mongodb+srv://salyutopia:0H40CFTXvtWpU5Ag@salyut.zzpvqij.mongodb.net/?retryWrites=true&w=majority`, {useNewUrlParser: true, useUnifiedTopology: true}, (err) => {
     if (err) {
         console.log("this >>>>>>>>", err)
     } else {
@@ -29,31 +30,27 @@ mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopolo
 })
 
 
-
-
 const storage = new GridFsStorage({
-    url: process.env.MONGO_URI,
+    url: `mongodb+srv://salyutopia:0H40CFTXvtWpU5Ag@salyut.zzpvqij.mongodb.net/?retryWrites=true&w=majority`,
     options: {useNewUrlParser: true, useUnifiedTopology: true},
     file: (req, file) => {
         return new Promise((resolve, reject) => {
-            crypto.randomBytes(16, (err, buff) =>{
-                if(err) {
+            crypto.randomBytes(16, (err, buff) => {
+                if (err) {
                     return reject(err)
                 }
-
-                const fileName = buff.toString("hex") + path.extname(file.originalname)
+                const filename = buff.toString("hex") + path.extname(file.originalname)
                 const fileInfo = {
-                    fileName: fileName,
-                    bucketName:"uploads"
+                    filename: filename,
+                    bucketName: "uploads"
                 }
                 resolve(fileInfo)
             })
         })
     }
- })
+})
 
 const upload = multer({storage})
-
 
 
 // Middleware
@@ -61,10 +58,11 @@ app.use(cors({
     origin: "*"
 }))
 app.use(express.json())
-app.use(helmet({crossOriginResourcePolicy: false}))
-// app.use(morgan("common"))
-
-
+// app.use(helmet({
+//     crossOriginResourcePolicy: false,
+//     noSniff: false,
+// }))
+app.use(morgan("common"))
 
 
 app.use("/.netlify/functions/index/api/users", userRoute)
@@ -73,11 +71,11 @@ app.use("/.netlify/functions/index/api/posts", postRoute)
 app.use("/.netlify/functions/index/api/comments", commentRoute)
 app.use("/.netlify/functions/index/api/conversations", conversationRoute)
 app.use("/.netlify/functions/index/api/messages", messageRoute)
-// app.use("/.netlify/functions/index/api/upload", imageRoute(upload))
-app.use("/api/upload", imageRoute(upload))
+app.use("/.netlify/functions/index/api/upload", upload.single("file"), imageRoute)
+// app.use("/api/upload", imageRoute(upload))
 
 
-app.listen(8080, () => {
-    console.log("listening")
-})
-// module.exports.handler = serverless(app)
+// app.listen(8080, () => {
+//     console.log("listening")
+// })
+module.exports.handler = serverless(app)
