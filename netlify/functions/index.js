@@ -19,13 +19,16 @@ const path = require("path");
 
 const app = express()
 
+const connectDB = async (uri) => {
+    await mongoose.connect(uri)
+}
 
-mongoose.connect(`${process.env.MONGO_URI}`).
-    catch((e) => {
-        console.log("avoieeeee", e)
+
+connectDB(`${process.env.MONGO_URI}`).then(() => {
+    console.log("connected to DB")
+}).catch(e => {
+    console.log(e)
 })
-
-
 
 
 const storage = multer.diskStorage(({
@@ -71,6 +74,6 @@ app.use("/.netlify/functions/index/api/upload", imageRoute(upload))
 module.exports.handler = serverless(app)
 
 
-// app.listen(8080, () => {
-//     console.log("server is running")
-// })
+app.listen(8080, () => {
+    console.log("server is running")
+})
