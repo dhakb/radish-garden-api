@@ -20,12 +20,24 @@ const UserSchema = new mongoose.Schema({
             min: 6
         },
         profilePicture: {
-            type: String,
-            default: "",
+            filename: {
+                required: true,
+                type: String,
+            },
+            path: {
+                required: true,
+                type: String,
+            },
         },
         coverPicture: {
-            type: String,
-            default: ""
+            filename: {
+                required: true,
+                type: String,
+            },
+            path: {
+                required: true,
+                type: String,
+            },
         },
         followers: {
             type: Array,

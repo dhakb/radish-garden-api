@@ -5,9 +5,8 @@ const helmet = require("helmet")
 const mongoose = require("mongoose")
 const crypto = require("crypto")
 const multer = require("multer")
-const {GridFsStorage} = require("multer-gridfs-storage")
 const serverless = require("serverless-http")
-const dotenv = require("dotenv").config()
+require("dotenv").config()
 
 const userRoute = require("./routes/users")
 const authRoute = require("./routes/login")
@@ -20,42 +19,36 @@ const path = require("path");
 
 const app = express()
 
-mongoose.connect(`${process.env.MONGO_URL}`, {useNewUrlParser: true, useUnifiedTopology: true}, (err) => {
-    if (err) {
-        console.log(err)
-    } else {
-        console.log("connected to MongoDB")
-    }
+
+mongoose.connect(`${process.env.MONGO_URI}`).
+    catch((e) => {
+        console.log("avoieeeee", e)
 })
 
 
 
 
-const storage = new GridFsStorage({
-    url: `${process.env.MONGO_URL}`,
-    file: (req, file) => {
-        return new Promise((resolve, reject) => {
-            crypto.randomBytes(16, (err, buff) =>{
-                if(err) {
-                    return reject(err)
-                }
+const storage = multer.diskStorage(({
+    destination: function (req, file, cb) {
+        cb(null, "./uploads");
+    },
+    filename: function (req, file, cb) {
 
-                const fileName = buff.toString("hex") + path.extname(file.originalname)
-                const fileInfo = {
-                    fileName: fileName,
-                    bucketName:"uploads"
-                }
-                resolve(fileInfo)
-            })
+        crypto.randomBytes(16, (err, buff) => {
+            if(err) return err
+
+            const filename = buff.toString("hex") + path.extname(file.originalname)
+            cb(null, filename)
         })
     }
- })
+}))
 
 const upload = multer({storage})
 
 
 
 // Middleware
+app.use(express.static("./uploads"))
 app.use(cors({
     origin: "*"
 }))
@@ -76,3 +69,8 @@ app.use("/.netlify/functions/index/api/upload", imageRoute(upload))
 
 
 module.exports.handler = serverless(app)
+
+
+// app.listen(8080, () => {
+//     console.log("server is running")
+// })
