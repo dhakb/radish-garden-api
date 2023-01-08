@@ -19,7 +19,7 @@ const path = require("path");
 
 const app = express()
 
-mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopology: true}, (err) => {
+mongoose.connect(`${process.env.MONGO_URI}`, {useNewUrlParser: true, useUnifiedTopology: true}, (err) => {
     if (err) {
         console.log(err)
     } else {
@@ -31,7 +31,7 @@ mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopolo
 
 
 const storage = new GridFsStorage({
-    url: process.env.MONGO_URI,
+    url: `${process.env.MONGO_URI}`,
     file: (req, file) => {
         return new Promise((resolve, reject) => {
             crypto.randomBytes(16, (err, buff) =>{
@@ -71,7 +71,7 @@ app.use("/api/comments", commentRoute)
 app.use("/api/upload", imageRoute(upload))
 
 
-const PORT = process.env.PORT
+const PORT = `${process.env.MONGO_URI}`
 app.listen(PORT || 8080, () => {
     console.log(`Server running on port ${PORT || 8080}`)
 })
