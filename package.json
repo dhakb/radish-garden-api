@@ -1,11 +1,11 @@
 {
   "name": "radish_garden_api",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js"
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",
@@ -19,7 +19,6 @@
     "mongoose": "^5.13.15",
     "morgan": "^1.10.0",
     "multer": "^1.4.4",
-    "multer-gridfs-storage": "^5.0.2",
     "nodemon": "^2.0.20"
   }
 }

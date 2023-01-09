@@ -68,7 +68,6 @@ router.put("/:id/like", async (req, res) => {
 
     try {
         const postToLike = await Post.findById(postId)
-        // if (postToLike.userId !== userId) {
 
             if (!postToLike.likes.includes(userId)) {
                 await postToLike.updateOne({$push: {likes: userId}})
@@ -77,11 +76,6 @@ router.put("/:id/like", async (req, res) => {
                 await postToLike.updateOne({$pull: {likes: userId}})
                 res.status(200).json("You disliked post!")
             }
-
-        // } else {
-        //     res.status(403).json("You can't like your post!")
-        // }
-
 
     } catch (err) {
         res.status(500).json(err)
@@ -114,14 +108,6 @@ router.get("/timeline/:userId", async (req, res) => {
         const currentUserPosts = await Post.find({userId: currentUser._id})
         const followingsPosts = await Promise.all(currentUser.followings.map(followingId => Post.find({userId: followingId})))
 
-        // const followings = user.followings
-        //
-        // let posts = []
-        // for (let user of followings) {
-        //     const post = await Post.find({user})
-        //     posts.push(post)
-        // }
-        console.log("fetched timeline")
         res.status(200).json(currentUserPosts.concat(...followingsPosts))
     } catch (err) {
         res.status(500).json(err)

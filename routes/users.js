@@ -28,7 +28,6 @@ router.put("/:id", async (req, res) => {
             res.status(500).json(err)
         }
 
-
     } else {
         res.status(403).json("Updating allowed only for own accounts!")
     }
@@ -69,11 +68,10 @@ router.get("/", async (req, res) => {
 })
 
 
-
 // ==== get users By userName // Or event matching startsWith()
 router.get("/filter/:filter", async (req, res) => {
     const {filter} = req.params
-    const regex = new RegExp("^"+filter)
+    const regex = new RegExp("^" + filter)
 
     try {
         const response = await User.find({username: regex})
@@ -84,7 +82,6 @@ router.get("/filter/:filter", async (req, res) => {
 })
 
 
-
 // ==== follow a user =====
 router.put("/:id/follow", async (req, res) => {
     const {id} = req.params
@@ -93,8 +90,6 @@ router.put("/:id/follow", async (req, res) => {
 
         try {
             const userToFollow = await User.findById(id)
-            // const currentUser = await User.findById(req.body.userId)
-
             if (!userToFollow.followers.includes(req.body.userId)) {
                 const updatedUser = await User.findByIdAndUpdate(req.body.userId, {$push: {followings: id}}, {new: true})
                 await userToFollow.update({$push: {followers: req.body.userId}})
@@ -113,7 +108,6 @@ router.put("/:id/follow", async (req, res) => {
     } else {
         res.status(403).json("Not possible to follow yourself")
     }
-
 })
 
 
@@ -125,8 +119,6 @@ router.put("/:id/unfollow", async (req, res) => {
 
         try {
             const userToFollow = await User.findById(id)
-            // const currentUser = await User.findById(req.body.userId)
-
             if (userToFollow.followers.includes(req.body.userId)) {
                 const updatedUser = await User.findByIdAndUpdate(req.body.userId, {$pull: {followings: id}}, {new: true})
                 await userToFollow.update({$pull: {followers: req.body.userId}})
@@ -142,11 +134,9 @@ router.put("/:id/unfollow", async (req, res) => {
             res.status(500).json(err)
         }
 
-
     } else {
         res.status(403).json("Not possible to unfollow yourself")
     }
-
 })
 
 
@@ -159,13 +149,10 @@ router.get("/:userId/followings", async (req, res) => {
         const followingsData = await Promise.all(followingUsersIds.map(userId => User.findById(userId)))
 
         res.status(200).json(followingsData)
-    } catch(err) {
+    } catch (err) {
         res.status(500).json(err)
     }
-
-
 })
-
 
 
 module.exports = router

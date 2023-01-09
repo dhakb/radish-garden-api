@@ -5,11 +5,15 @@ const ImageSchema = new mongoose.Schema({
         required: true,
         type: String
     },
-    fileId: {
+    path: {
         required: true,
         type: String
     },
     originalName: {
+        required: true,
+        type: String
+    },
+    mimetype: {
         required: true,
         type: String
     }
