@@ -71,7 +71,7 @@ app.use("/api/comments", commentRoute)
 app.use("/api/upload", imageRoute(upload))
 
 
-const PORT = `${process.env.MONGO_URI}`
+const PORT = process.env.PORT
 app.listen(PORT || 8080, () => {
-    console.log(`Server running on port ${PORT || 8080}`)
+    console.log(`Server running on port ${PORT} || 8080}`)
 })
