@@ -8,7 +8,7 @@ router.post("/", async (req, res) => {
     const {userId, desc, img} = req.body
 
     try {
-        const newPost = await new Post({userId, desc, img})
+        const newPost = new Post({userId, desc, img})
         await newPost.save()
         res.status(200).json(newPost)
     } catch (err) {

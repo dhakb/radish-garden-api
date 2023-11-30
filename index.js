@@ -49,6 +49,11 @@ app.use("/api/upload", imageRoute(uploadMiddleware))
 
 const PORT = process.env.PORT
 app.listen(PORT || 8080, () => {
-    console.log(`Server running on port ${PORT || "8080"}`)
-    connectDB(`${process.env.MONGO_URI}`)
+    try {
+        connectDB(`${process.env.MONGO_URI}`)
+        console.log(`Server running on port ${PORT || "8080"}`)
+
+    } catch(err) {
+        console.log("Error while starting app a server:", err)
+    }
 })

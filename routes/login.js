@@ -13,7 +13,7 @@ route.post("/register", async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, salt)
 
         // Create new user
-        const newUser = await new User({
+        const newUser = new User({
             username,
             email,
             password: hashedPassword
@@ -21,7 +21,7 @@ route.post("/register", async (req, res) => {
 
         // Save new user and respond
         await newUser.save()
-        res.status(200).json(newUser)
+        res.status(200).json(user)
     } catch (err) {
         console.log(err)
     }
