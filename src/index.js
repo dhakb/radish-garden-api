@@ -12,7 +12,7 @@ require("dotenv").config()
 
 // internal modules
 const uploadMiddleware = require("./middleware/upload.js")
-const connectDB = require("./db/connectDB")
+const connectDB = require("./db/connectDB.js")
 
 
 // Routes
