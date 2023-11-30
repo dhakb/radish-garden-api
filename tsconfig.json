@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist",
+    "moduleResolution": "Node",
+    "module": "CommonJS",
+    "allowJs": true,
+    "target": "ES6"
+  },
+  "include": ["./src/**/*"],
+  "exclude": ["node_modules", "dist"]
+}
