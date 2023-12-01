@@ -1,17 +1,14 @@
 // Core modules
-const express = require("express")
-const mongoose = require("mongoose")
-const cors = require("cors")
-const morgan = require("morgan")
-const helmet = require("helmet")
-const crypto = require("crypto")
-const multer = require("multer")
-const path = require("path");
-require("dotenv").config()
+import express from "express"
+import cors from "cors"
+import morgan from "morgan"
+import helmet from "helmet"
+import dotenv from "dotenv"
+dotenv.config()
 
 
 // internal modules
-const uploadMiddleware = require("./middleware/upload.js")
+import uploadMiddleware from "./middleware/upload"
 const connectDB = require("./db/connectDB.js")
 
 
