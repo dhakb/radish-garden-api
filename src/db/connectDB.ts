@@ -8,7 +8,7 @@ const connectDB = (mongoURI: string) => {
       if (err) {
         console.log(err);
       } else {
-        console.log("connected to MongoDB");
+        console.log("Successfully connected to MongoDB!");
       }
     }
   );

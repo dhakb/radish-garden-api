@@ -3,13 +3,9 @@ import express from "express"
 import cors from "cors"
 import morgan from "morgan"
 import helmet from "helmet"
-import dotenv from "dotenv"
-dotenv.config()
 
-
-// internal modules
+// Internal modules
 import uploadMiddleware from "./middleware/upload"
-import connectDB from  "./db/connectDB"
 
 // Routes
 import conversationRoute from  "./routes/conversation"
@@ -42,15 +38,4 @@ app.use("/api/upload", imageRoute(uploadMiddleware))
 
 
 
-
-
-const PORT = process.env.PORT
-app.listen(PORT || 8080, () => {
-    try {
-        connectDB(`${process.env.MONGO_URI}`)
-        console.log(`Server running on port ${PORT || "8080"}`)
-
-    } catch(err) {
-        console.log("Error while starting app a server:", err)
-    }
-})
+export default app
