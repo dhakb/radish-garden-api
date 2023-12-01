@@ -8,9 +8,8 @@ dotenv.config()
 
 
 // internal modules
-import uploadMiddleware from "./middleware/upload.js"
-import connectDB from  "./db/connectDB.js"
-
+import uploadMiddleware from "./middleware/upload"
+import connectDB from  "./db/connectDB"
 
 // Routes
 import conversationRoute from  "./routes/conversation"
