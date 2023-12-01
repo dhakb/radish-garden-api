@@ -8,18 +8,19 @@ dotenv.config()
 
 
 // internal modules
-import uploadMiddleware from "./middleware/upload"
-const connectDB = require("./db/connectDB.js")
+import uploadMiddleware from "./middleware/upload.js"
+import connectDB from  "./db/connectDB.js"
 
 
 // Routes
-const conversationRoute = require("./routes/conversation")
-const messageRoute = require("./routes/message")
-const commentRoute = require("./routes/comment")
-const userRoute = require("./routes/users")
-const authRoute = require("./routes/login")
-const postRoute = require("./routes/posts")
-const imageRoute = require("./routes/image")
+import conversationRoute from  "./routes/conversation"
+import messageRoute from  "./routes/comment"
+import userRoute from  "./routes/users"
+import authRoute from  "./routes/users"
+import postRoute from  "./routes/posts"
+import imageRoute from  "./routes/image"
+import commentRoute from  "./routes/comment"
+
 
 
 const app = express()

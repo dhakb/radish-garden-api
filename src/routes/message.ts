@@ -1,33 +1,30 @@
-const route = require("express").Router()
-const Message = require("../models/Message")
+import { Router } from "express";
+import Message from "../models/Message";
 
+const route = Router();
 
 // Add Message
 route.post("/", async (req, res) => {
-    const newMessage = new Message(req.body)
+  const newMessage = new Message(req.body);
 
-    try {
-        const response = await newMessage.save()
-        res.status(200).json(response)
-    } catch (err) {
-        res.status(500).json(err)
-    }
-})
-
+  try {
+    const response = await newMessage.save();
+    res.status(200).json(response);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 
 // Get Messages
 route.get("/:conversationId", async (req, res) => {
-    const {conversationId} = req.params
+  const { conversationId } = req.params;
 
-    try {
-        const response = await Message.find({conversationId})
-        res.status(200).json(response)
-    } catch (err) {
-        res.status(500).json(500)
-    }
-})
+  try {
+    const response = await Message.find({ conversationId });
+    res.status(200).json(response);
+  } catch (err) {
+    res.status(500).json(500);
+  }
+});
 
-
-
-
-module.exports = route
+export default route;

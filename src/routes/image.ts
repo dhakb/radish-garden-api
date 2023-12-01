@@ -1,11 +1,11 @@
-const fs = require("fs")
-const route = require("express").Router()
-const mongoose = require("mongoose")
-const Image = require("../models/Image")
+import fs from "node:fs"
+import {Router} from "express"
+import Image from "../models/Image"
 
+
+const route = Router()
 
 const imageRoute = (upload) => {
-
 
     // POST image (add to Image collection)
     route.post("/", upload.single("file"), async (req, res) => {
@@ -46,4 +46,4 @@ const imageRoute = (upload) => {
 }
 
 
-module.exports = imageRoute
+export default imageRoute

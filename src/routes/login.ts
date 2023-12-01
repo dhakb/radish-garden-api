@@ -1,7 +1,9 @@
-const route = require("express").Router()
-const bcrypt = require("bcrypt")
-const User = require("../models/User")
+import {Router} from "express"
+import bcrypt from "bcrypt"
+import User from "../models/User"
 
+
+const route = Router()
 
 // ===== Register new user ======
 route.post("/register", async (req, res) => {
@@ -21,12 +23,11 @@ route.post("/register", async (req, res) => {
 
         // Save new user and respond
         await newUser.save()
-        res.status(200).json(user)
+        res.status(200).json(newUser)
     } catch (err) {
         console.log(err)
     }
 })
-
 
 
 // ====== login already existing user =====
@@ -47,4 +48,4 @@ route.post("/login", async (req, res) => {
 
 })
 
-module.exports = route
+export default route
