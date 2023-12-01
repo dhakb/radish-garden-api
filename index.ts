@@ -10,6 +10,5 @@ const server = http.createServer(app);
 
 server.listen(PORT, () => {
   connectDB(`${process.env.MONGO_URI}`);
-  console.log(`Server running on port ${PORT || "8080"}`);
-  console.log(`Server listening on port ${PORT}`);
+  console.log(`Server is listening on port ${PORT}`);
 });
