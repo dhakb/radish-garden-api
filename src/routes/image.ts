@@ -1,6 +1,6 @@
 import fs from "node:fs"
 import {Router} from "express"
-import Image from "../models/Image"
+import Image from "../models/Image.js"
 
 
 const route = Router()

@@ -1,15 +1,26 @@
 import { Router } from "express";
-import Post from "../models/Post";
-import User from "../models/User";
+import Post from "../models/Post.js";
+import User from "../models/User.js";
 
 const route = Router();
 
+
+
+// async function fetchP() {
+//   const post = await Post.findById("656a3186135ed77460c463e8").populate("author")
+//   console.log(post)
+// }
+
+// fetchP()
+
+
+
 // ===== Create post ======
 route.post("/", async (req, res) => {
-  const { userId, desc, img } = req.body;
+  const { userId, desc, img } = req.body; 
 
   try {
-    const newPost = new Post({ userId, desc, img });
+    const newPost = new Post({ author: userId, content: desc, img });
     await newPost.save();
     res.status(200).json(newPost);
   } catch (err) {

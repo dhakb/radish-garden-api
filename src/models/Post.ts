@@ -1,31 +1,29 @@
-import mongoose from "mongoose"
+import mongoose from "mongoose";
 
-const PostSchema = new mongoose.Schema({
-        userId: {
-            type: String,
-            required: true,
-        },
-        desc: {
-            type: String,
-            max: 500,
-        },
-        img: {
-            type: String,
-        },
-        likes: {
-            type: Array,
-            default: [],
-        },
-        // comments: {
-        //     type: Array,
-        //     default: [],
-        //     max: 1000
-        // }
+const { SchemaTypes } = mongoose;
+
+const PostSchema = new mongoose.Schema(
+  {
+    content: {
+      type: String,
+      max: 500,
     },
-    {
-        timestamps: true
-    }
-)
+    img: {
+      type: String,
+    },
+    likes: {
+      type: Array,
+      default: [],
+    },
+    author: {
+      type: SchemaTypes.ObjectId,
+      ref: "User",
+      required: true,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
 
-
-export default mongoose.model("Post", PostSchema)
+export default mongoose.model("Post", PostSchema);
