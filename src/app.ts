@@ -5,21 +5,19 @@ import morgan from "morgan"
 import helmet from "helmet"
 
 // Internal modules
-import uploadMiddleware from "./middleware/upload"
+import uploadMiddleware from "./middleware/upload.js"
 
 // Routes
-import conversationRoute from  "./routes/conversation"
-import messageRoute from  "./routes/comment"
-import userRoute from  "./routes/users"
-import authRoute from  "./routes/users"
-import postRoute from  "./routes/posts"
-import imageRoute from  "./routes/image"
-import commentRoute from  "./routes/comment"
-
-
+import conversationRoute from  "./routes/conversation.js"
+import messageRoute from  "./routes/comment.js"
+import userRoute from  "./routes/users.js"
+import authRoute from  "./routes/login.js"
+import postRoute from  "./routes/posts.js"
+import imageRoute from  "./routes/image.js"
+import commentRoute from  "./routes/comment.js"
 
 const app = express()
-
+console.log("heeey")
 
 // Middleware
 app.use(cors())

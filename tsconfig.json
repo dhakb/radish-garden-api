@@ -1,12 +1,13 @@
 {
   "compilerOptions": {
     "outDir": "./dist",
-    "moduleResolution": "Node",
+    "moduleResolution": "NodeNext",
     "esModuleInterop": true,
-    "module": "CommonJS",
+    "module": "NodeNext",
     "allowJs": true,
-    "target": "ES6"
+    "target": "ES6",
+    "sourceMap": true
   },
-  "include": ["./src/**/*"],
+  "include": ["./src/**/*", "index.ts"],
   "exclude": ["node_modules", "dist"]
 }

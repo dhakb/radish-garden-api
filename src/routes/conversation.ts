@@ -1,5 +1,5 @@
 import { Router } from "express";
-import Conversation from "../models/Conversation";
+import Conversation from "../models/Conversation.js";
 
 const route = Router();
 

@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const connectDB = (mongoURI: string) => {
   mongoose.connect(
     mongoURI,
-    { useNewUrlParser: true, useUnifiedTopology: true },
+    { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true },
     (err) => {
       if (err) {
         console.log(err);
