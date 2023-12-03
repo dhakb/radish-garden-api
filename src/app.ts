@@ -1,4 +1,4 @@
-// Core modules
+// Core modules/External Packages
 import express from "express"
 import cors from "cors"
 import morgan from "morgan"
@@ -17,9 +17,8 @@ import imageRoute from  "./routes/image.js"
 import commentRoute from  "./routes/comment.js"
 
 const app = express()
-console.log("heeey")
 
-// Middleware
+// Middlewares 
 app.use(cors())
 app.use(express.json())
 app.use(helmet({crossOriginResourcePolicy: false}))
