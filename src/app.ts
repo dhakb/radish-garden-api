@@ -1,24 +1,20 @@
-// Core modules/External Packages
 import express from "express"
 import cors from "cors"
 import morgan from "morgan"
 import helmet from "helmet"
 
-// Internal modules
 import uploadMiddleware from "./middleware/upload.js"
 
-// Routes
-import conversationRoute from  "./routes/conversation.js"
-import messageRoute from  "./routes/comment.js"
-import userRoute from  "./routes/users.js"
-import authRoute from  "./routes/login.js"
-import postRoute from  "./routes/posts.js"
-import imageRoute from  "./routes/image.js"
-import commentRoute from  "./routes/comment.js"
+import conversationRoute from  "./conversations/routes.js"
+import messageRoute from  "./messages/routes.js"
+import userRoute from  "./users/routes.js"
+import authRoute from  "./auth/routes.js"
+import postRoute from  "./posts/routes.js"
+import imageRoute from  "./images/routes.js"
+import commentRoute from  "./comments/routes.js"
 
 const app = express()
 
-// Middlewares 
 app.use(cors())
 app.use(express.json())
 app.use(helmet({crossOriginResourcePolicy: false}))
