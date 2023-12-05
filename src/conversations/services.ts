@@ -5,15 +5,15 @@ export const addConversation = async (senderId, receiverId) => {
     members: [senderId, receiverId],
   });
 
-  return await newConversation.save();
+  return newConversation.save();
 };
 
 export const getConversation = async (userId) => {
-  return await Conversation.find({ members: userId });
+  return Conversation.find({ members: userId });
 };
 
 export const getConversationOfTwo = async (userOneId, userTwoId) => {
-  return await Conversation.findOne({
+  return Conversation.findOne({
     members: { $all: [userOneId, userTwoId] },
   });
 };

@@ -3,7 +3,7 @@ import User from "../models/User.js";
 
 export const createPost = async ({ userId, desc, img }) => {
   const newPost = new Post({ author: userId, content: desc, img });
-  return await newPost.save();
+  return newPost.save();
 };
 
 export const editPost = async (postId, payload) => {
@@ -40,7 +40,7 @@ export const likePost = async (postId, userId) => {
 };
 
 export const getSinglePost = async (postId) => {
-  return await Post.findById(postId);
+  return Post.findById(postId);
 };
 
 export const getTimelinePosts = async (userId) => {
@@ -48,8 +48,8 @@ export const getTimelinePosts = async (userId) => {
   const currentUserPosts = await Post.find({ userId: currentUser._id });
   const followingsPosts = await Promise.all(
     currentUser.followings.map((followingId) =>
-      Post.find({ userId: followingId })
-    )
+      Post.find({ userId: followingId }),
+    ),
   );
 
   return currentUserPosts.concat(...followingsPosts);
@@ -57,5 +57,5 @@ export const getTimelinePosts = async (userId) => {
 
 export const getUserAllPost = async (username) => {
   const currentUser = await User.findOne({ username });
-  return await Post.find({ userId: currentUser._id });
+  return Post.find({ userId: currentUser._id });
 };

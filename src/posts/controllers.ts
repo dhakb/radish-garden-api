@@ -5,6 +5,7 @@ export const cretePost = async (req, res) => {
 
   try {
     const newPost = await PostsService.createPost({ userId, desc, img });
+
     res.status(200).json(newPost);
   } catch (err) {
     res.status(500).json(err);
@@ -86,6 +87,7 @@ export const getTimelinePosts = async (req, res) => {
 
 export const getUserAllPost = async (req, res) => {
   const { username } = req.params;
+
   try {
     const posts = await PostsService.getUserAllPost(username);
     res.status(200).json(posts);

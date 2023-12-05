@@ -18,5 +18,3 @@ const storage = multer.diskStorage({
 });
 
 export default multer({ storage });
-
-

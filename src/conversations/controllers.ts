@@ -6,7 +6,7 @@ export const addConversation = async (req, res) => {
   try {
     const response = await ConversationsService.addConversation(
       senderId,
-      receiverId
+      receiverId,
     );
     res.status(200).json(response);
   } catch (err) {
@@ -18,9 +18,8 @@ export const getConversation = async (req, res) => {
   const { userId } = req.params;
 
   try {
-    const userConversations = await ConversationsService.getConversation(
-      userId
-    );
+    const userConversations =
+      await ConversationsService.getConversation(userId);
     res.status(200).json(userConversations);
   } catch (err) {
     res.status(500).json(err);
@@ -33,7 +32,7 @@ export const getConversationOfTwo = async (req, res) => {
   try {
     const conversation = await ConversationsService.getConversationOfTwo(
       userOneId,
-      userTwoId
+      userTwoId,
     );
     res.status(200).json(conversation);
   } catch (err) {

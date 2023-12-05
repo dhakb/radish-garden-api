@@ -1,18 +1,20 @@
-import mongoose from "mongoose"
+import mongoose from "mongoose";
 
-
-const CommentSchema = new mongoose.Schema({
+const CommentSchema = new mongoose.Schema(
+  {
     text: {
-        type: String
+      type: String,
     },
     authorId: {
-        type: String
+      type: String,
     },
     postId: {
-        type: String
-    }
-}, {
-    timestamps: true
-})
+      type: String,
+    },
+  },
+  {
+    timestamps: true,
+  },
+);
 
-export default mongoose.model("Comment", CommentSchema, )
+export default mongoose.model("Comment", CommentSchema);

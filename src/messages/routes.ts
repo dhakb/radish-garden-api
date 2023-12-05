@@ -1,9 +1,9 @@
 import { Router } from "express";
-import * as MessagesControlles from "../messages/controllers.js";
+import * as MessagesControllers from "../messages/controllers.js";
 
 const route = Router();
 
-route.post("/", MessagesControlles.addMessage);
-route.get("/:conversationId", MessagesControlles.getMessage);
+route.post("/", MessagesControllers.addMessage);
+route.get("/:conversationId", MessagesControllers.getMessages);
 
 export default route;

@@ -7,11 +7,9 @@ export const addUser = async ({ username, email, password }) => {
     password,
   });
 
-  return await newUser.save();
+  return newUser.save();
 };
 
-
 export const getUserByEmail = async (email) => {
-    return await User.findOne({ email: email });
-}
-
+  return User.findOne({ email: email });
+};

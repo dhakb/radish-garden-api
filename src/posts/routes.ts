@@ -1,14 +1,14 @@
 import { Router } from "express";
-import * as PostsConrtollers from "../posts/controllers.js";
+import * as PostControllers from "../posts/controllers.js";
 
 const route = Router();
 
-route.post("/", PostsConrtollers.cretePost);
-route.put("/:id", PostsConrtollers.editPost);
-route.delete("/:id", PostsConrtollers.deletePost);
-route.put("/:id/like", PostsConrtollers.likePost);
-route.get("/:id", PostsConrtollers.getSinglePost);
-route.get("/timeline/:userId", PostsConrtollers.getTimelinePosts);
-route.get("/profile/:username", PostsConrtollers.getUserAllPost);
+route.post("/", PostControllers.cretePost);
+route.put("/:id", PostControllers.editPost);
+route.delete("/:id", PostControllers.deletePost);
+route.put("/:id/like", PostControllers.likePost);
+route.get("/:id", PostControllers.getSinglePost);
+route.get("/timeline/:userId", PostControllers.getTimelinePosts);
+route.get("/profile/:username", PostControllers.getUserAllPost);
 
 export default route;

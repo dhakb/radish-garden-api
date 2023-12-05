@@ -1,23 +1,21 @@
 import User from "../models/User.js";
 
 export const updateUser = async (userId, payload) => {
-  return await User.findByIdAndUpdate(userId, { $set: payload }, { new: true });
+  return User.findByIdAndUpdate(userId, { $set: payload }, { new: true });
 };
 
 export const deleteUser = async (userId) => {
-  return await User.findByIdAndDelete(userId);
+  return User.findByIdAndDelete(userId);
 };
 
 export const getUserByIdOrUsername = async (userId, username) => {
-  return userId
-    ? await User.findById(userId)
-    : await User.findOne({ username });
+  return userId ? User.findById(userId) : User.findOne({ username });
 };
 
 export const getUserByUserName = async (username) => {
   const regex = new RegExp("^" + username);
 
-  return await User.find({ username: regex });
+  return User.find({ username: regex });
 };
 
 export const followUser = async (userToFollowId, userWantsToFollowId) => {
@@ -26,7 +24,7 @@ export const followUser = async (userToFollowId, userWantsToFollowId) => {
     const updatedUser = await User.findByIdAndUpdate(
       userWantsToFollowId,
       { $push: { followings: userWantsToFollowId } },
-      { new: true }
+      { new: true },
     );
     await userToFollow.update({ $push: { followers: userWantsToFollowId } });
     return updatedUser;
@@ -41,7 +39,7 @@ export const unfollowUser = async (userToUnfollowId, userWantsToUnfollowId) => {
     const updatedUser = await User.findByIdAndUpdate(
       userWantsToUnfollowId,
       { $pull: { followings: userToUnfollowId } },
-      { new: true }
+      { new: true },
     );
     await userToUnfollow.update({
       $pull: { followers: userWantsToUnfollowId },
@@ -55,7 +53,7 @@ export const unfollowUser = async (userToUnfollowId, userWantsToUnfollowId) => {
 export const getUserFollowings = async (userId) => {
   const { followings: followingUsersIds } = await User.findById(userId);
   const followingsData = await Promise.all(
-    followingUsersIds.map((userId) => User.findById(userId))
+    followingUsersIds.map((userId) => User.findById(userId)),
   );
 
   return followingsData;

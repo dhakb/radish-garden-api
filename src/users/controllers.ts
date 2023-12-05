@@ -1,7 +1,6 @@
 import bcrypt from "bcrypt";
 import * as UserService from "../users/services.js";
 
-
 export const getUser = async (req, res) => {
   const { username, userId } = req.query;
   try {
@@ -13,7 +12,6 @@ export const getUser = async (req, res) => {
   }
 };
 
-
 export const getUsersByUserName = async (req, res) => {
   const { filter } = req.params;
 
@@ -24,7 +22,6 @@ export const getUsersByUserName = async (req, res) => {
     res.status(500).json(err);
   }
 };
-
 
 export const updateUser = async (req, res) => {
   const { id } = req.params;
@@ -71,10 +68,6 @@ export const deleteUser = async (req, res) => {
   }
   res.json("end of deletion");
 };
-
-
-
-
 
 export const followUser = async (req, res) => {
   const { id } = req.params;
