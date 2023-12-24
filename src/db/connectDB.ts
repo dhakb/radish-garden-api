@@ -10,7 +10,7 @@ const connectDB = (mongoURI: string) => {
       } else {
         console.log("Successfully connected to MongoDB!");
       }
-    }
+    },
   );
 };
 
